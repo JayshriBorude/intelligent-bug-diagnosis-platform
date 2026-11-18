@@ -1,5 +1,6 @@
 
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
+from fastapi.responses import FileResponse
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from datetime import datetime, timezone
@@ -39,9 +40,15 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 
 @app.get("/")
 def home():
+    return FileResponse(
+        Path(__file__).parent / "static" / "index.html"
+    )
+
+
+@app.get("/health")
+def health():
     return {
-        "message": "Welcome to Intelligent Bug Diagnosis Platform",
-        "module": "Bug Submission",
+        "message": "Backend is running",
         "status": "Running"
     }
 
